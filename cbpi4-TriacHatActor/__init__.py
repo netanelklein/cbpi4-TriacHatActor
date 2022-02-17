@@ -27,7 +27,7 @@ class TriacHat(CBPiActor):
         if self.power < 0:
             self.power = 0
         if self.power > 100:
-            self.power = 100            
+            self.power = 100
         await self.set_power(self.power)
     
     # Initializing plugin variables
@@ -47,7 +47,7 @@ class TriacHat(CBPiActor):
         else:
             self.power = 100
         await self.set_power(self.power)
-        logger.info("Triac Hat actor %s ON - Channel %s " % (self.id, self.ch))
+        logger.info("Triac Hat actor %s ON - Channel %s - Power %s" % (self.id, self.ch, self.power))
         self.state = True
 
     async def off(self):
@@ -62,7 +62,8 @@ class TriacHat(CBPiActor):
         elif power > 0:
             if self.state == False:
                 self.switch.ChannelEnable(self.ch)
-            self.switch.VoltageRegulation(self.ch, power*1.79)   # Still need to check how exactly the angle works. assuming 0 is off and 179 is 100%
+            self.switch.VoltageRegulation(self.ch, round(power*1.79))   # Still need to check how exactly the angle works. assuming 0 is off and 179 is 100%
+        await self.cbpi.actor.actor_update(self.id, power)
     
     def get_state(self):
         return self.state
