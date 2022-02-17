@@ -1,7 +1,6 @@
 
 # -*- coding: utf-8 -*-
 from cProfile import label
-#from msilib.schema import Property
 import os
 from pickle import TRUE
 from aiohttp import web
@@ -15,17 +14,13 @@ from TriacHat_2CH_Driver import SCR
 
 logger = logging.getLogger(__name__)
 
-mode = GPIO.getmode()
-if (mode == None):
-    GPIO.setmode(GPIO.BCM)
-
 @parameters([Property.Select(label="Channel", options=[1,2], description="Select which channel you want to assign as this actor"),
              Property.Select(label="Interface", options=["UART", "I2C"], description="Select which interface your Triac Hat is using. (Deafult is UART)"),
              Property.Select(label="Device Port", options=[port.device for port in lp.comports(True)]),
              Property.Select(label="Frequency", options=[50, 60], description="Frequency in Hz (Deafult is 50Hz)")])
 class TriacHat(CBPiActor):
 
-    @action("Set Power", parameters=Property.Number(label="Power", configurable=True, description="Power Setting [0-100]"))
+    @action("Set Power", parameters=[Property.Number(label="Power", configurable=True, description="Power Setting [0-100]")])
     async def setpower(self, Power=100, **kwargs):
         logging.info(Power)
         self.power = int(Power)
@@ -61,10 +56,10 @@ class TriacHat(CBPiActor):
         self.state = False
         
     async def set_power(self, power):
-        if self.state is True and power is 0:
+        if self.state == True and power == 0:
             self.switch.ChannelDisable(self.ch)
         elif power > 0:
-            if self.state is False:
+            if self.state == False:
                 self.switch.ChannelEnable(self.ch)
             self.switch.VoltageRegulation(self.ch, power*1.79)   # Still need to check how exactly the angle works. assuming 0 is off and 179 is 100%
     
