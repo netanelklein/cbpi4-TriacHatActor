@@ -1,20 +1,14 @@
 
 # -*- coding: utf-8 -*-
-from cProfile import label
-import os
-from pickle import TRUE
-from aiohttp import web
 import logging
-from unittest.mock import MagicMock, patch
 import asyncio
-import random
 from cbpi.api import *
 import serial.tools.list_ports as lp
 from TriacHat_2CH_Driver import SCR
 
 logger = logging.getLogger(__name__)
 
-@parameters([Property.Select(label="Channel", options=[1,2], description="Select which channel you want to assign as this actor"),
+@parameters([Property.Select(label="Channel", options=[1,2], description="Select which channel you want to assign to this actor"),
              Property.Select(label="Interface", options=["UART", "I2C"], description="Select which interface your Triac Hat is using. (Deafult is UART)"),
              Property.Select(label="Device Port", options=[port.device for port in lp.comports(True)]),
              Property.Select(label="Frequency", options=[50, 60], description="Frequency in Hz (Deafult is 50Hz)")])
