@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 from cProfile import label
-from msilib.schema import Property
+#from msilib.schema import Property
 import os
 from pickle import TRUE
 from aiohttp import web
