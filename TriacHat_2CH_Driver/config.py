@@ -4,8 +4,10 @@ import RPi.GPIO as GPIO
 import serial
 import smbus
 import time
+import logging
 # dev = "/dev/ttySC0"
 
+logger = logging.getLogger(__name__)
 
 class config(object):
     def __init__(ser, Baudrate = 115200, dev = "/dev/ttyAMA0", data_mode = 1, address=0x47):
@@ -14,12 +16,13 @@ class config(object):
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
         if(data_mode == 1):
-            print (dev)
-            print (Baudrate)
+            logger.info("Triac Hat interface is set to UART")
+            logger.info("Triac Hat device is at port %s"(dev))
+            logger.info("Triac Hat baudrate is %s"(Baudrate))
             ser.dev = dev
-            ser.serial = serial.Serial("/dev/ttyAMA0",Baudrate)
+            ser.serial = serial.Serial(dev ,Baudrate)
         elif(data_mode == 0):
-            print ('I2C')
+            logger.info("Triac Hat interface is set to I2C")
             ser.i2c = smbus.SMBus(1)
             ser.address = address
             
