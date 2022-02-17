@@ -61,7 +61,7 @@ class TriacHat(CBPiActor):
             self.switch.ChannelDisable(self.ch)
         elif power > 0:
             if self.state == False:
-               self.switch.ChannelEnable(self.ch)
+                self.switch.ChannelEnable(self.ch)
             self.switch.VoltageRegulation(self.ch, power*1.79)   # Still need to check how exactly the angle works. assuming 0 is off and 179 is 100%
     
     def get_state(self):
