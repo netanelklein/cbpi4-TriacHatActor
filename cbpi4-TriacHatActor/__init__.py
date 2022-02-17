@@ -56,6 +56,7 @@ class TriacHat(CBPiActor):
         self.state = False
         
     async def set_power(self, power):
+        self.power = power
         if self.state == True and power == 0:
             self.switch.ChannelDisable(self.ch)
         elif power > 0:
