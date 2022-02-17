@@ -11,6 +11,7 @@ import asyncio
 import random
 from cbpi.api import *
 import serial.tools.list_ports as lp
+from TriacHat_2CH_Driver import SCR
 
 logger = logging.getLogger(__name__)
 
@@ -18,9 +19,10 @@ mode = GPIO.getmode()
 if (mode == None):
     GPIO.setmode(GPIO.BCM)
 
-@parameters([Property.Select(label="Channel", options=[1,2]),
+@parameters([Property.Select(label="Channel", options=[1,2], description="Select which channel you want to assign as this actor"),
              Property.Select(label="Interface", options=["UART", "I2C"], description="Select which interface your Triac Hat is using. (Deafult is UART)"),
-             Property.Select(label="Device Port", options=[port.device for port in lp.comports(True)])])
+             Property.Select(label="Device Port", options=[port.device for port in lp.comports(True)]),
+             Property.Select(label="Frequency", options=[50, 60], description="Frequency in Hz (Deafult is 50Hz)")])
 class TriacHat(CBPiActor):
 
     @action("Set Power", parameters=Property.Number(label="Power", configurable=True, description="Power Setting [0-100]"))
@@ -37,8 +39,11 @@ class TriacHat(CBPiActor):
     async def on_start(self):
         self.power = None
         self.ch = int(self.props.get("Channel"))
-        self.interface = 0 if (self.props.get("Interface")) == "I2C" else 1
+        self.interface = 0 if self.props.get("Interface") == "I2C" else 1
         self.dev = self.props.get("Device Port")
+        self.freq = self.props.get("Frequncy", 50)
+        self.switch = SCR.SCR(dev=self.dev, data_mode=self.interface)
+        self.switch.GridFrequency(self.freq)
         self.state = False
 
     async def on(self, power = None):
@@ -56,7 +61,12 @@ class TriacHat(CBPiActor):
         self.state = False
         
     async def set_power(self, power):
-        pass
+        if self.state is True and power is 0:
+            self.switch.ChannelDisable(self.ch)
+        elif power > 0:
+            if self.state is False:
+                self.switch.ChannelEnable(self.ch)
+            self.switch.VoltageRegulation(self.ch, power*1.79)   # Still need to check how exactly the angle works. assuming 0 is off and 179 is 100%
     
     def get_state(self):
         return self.state
