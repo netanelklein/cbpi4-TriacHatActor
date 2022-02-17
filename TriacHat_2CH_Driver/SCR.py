@@ -38,7 +38,7 @@ class SCR:
         ch=[0x57,0x68,0x01,0x00,0x00,0x00]
         ch[4] = Mode&0x01
         ch[5] = self.SET_Check_Digit(ch)
-        self.SendCommand(ch);
+        self.SendCommand(ch)
 
     def ChannelEnable(self, Channel):
         if(Channel == 1):
