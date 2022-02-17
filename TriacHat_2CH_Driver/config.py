@@ -8,7 +8,7 @@ import time
 
 
 class config(object):
-    def __init__(ser, Baudrate = 115200, dev = "/dev/ttyS0", data_mode = 1, address=0x47):
+    def __init__(ser, Baudrate = 115200, dev = "/dev/ttyAMA0", data_mode = 1, address=0x47):
         
         ser.data_mode = data_mode
         GPIO.setmode(GPIO.BCM)
@@ -17,7 +17,7 @@ class config(object):
             print (dev)
             print (Baudrate)
             ser.dev = dev
-            ser.serial = serial.Serial("/dev/ttyS0",Baudrate)
+            ser.serial = serial.Serial("/dev/ttyAMA0",Baudrate)
         elif(data_mode == 0):
             print ('I2C')
             ser.i2c = smbus.SMBus(1)
