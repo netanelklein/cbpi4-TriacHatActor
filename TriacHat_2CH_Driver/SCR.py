@@ -16,9 +16,9 @@ CH_EN=[0x57,0x68,0x02,0x00,0x00,0x00]
 
 
 class SCR:
-    def __init__(self,Baudrate = 115200, dev = "/dev/ttyS0", data_mode = 1, address=0x47):
+    def __init__(self, Baudrate = 115200, dev = "/dev/ttyAMA0", data_mode = 1, address=0x47):
         self.address = address
-        self.data_mode = data_mode#1 :uart   0: i2c
+        self.data_mode = data_mode  #1 :uart   0: i2c
         self.Baudrate = Baudrate
         self.dev = dev
         self.com = config.config(Baudrate , dev , data_mode, address)
@@ -28,7 +28,7 @@ class SCR:
             #Data[6] = '\0'
             #self.com.UART_SendString(Data);
             self.com.UART_SendnByte(Data,6)
-        if(self.data_mode == 0):# 0: i2c
+        if(self.data_mode == 0):    # 0: i2c
             self.com.I2C_SendWord(Data[2],(Data[3]) | (Data[4]<<8))
         time.sleep(0.01)
     
@@ -66,25 +66,25 @@ class SCR:
         if(Channel == 1):
             Angle1[4] = Angle
             Angle1[5] = self.SET_Check_Digit(Angle1)
-            self.SendCommand(Angle1);
+            self.SendCommand(Angle1)
         elif(Channel == 2):
             Angle2[4] = Angle
             Angle2[5] = self.SET_Check_Digit(Angle2)
-            self.SendCommand(Angle2);
+            self.SendCommand(Angle2)
         
     def GridFrequency(self, Hz):
         Frequency=[0x57,0x68,0x05,0x00,0x32,0x00]
         if(Hz == 50 or Hz ==60):
             Frequency[4] = Hz
             Frequency[5] = self.SET_Check_Digit(Frequency)
-            self.SendCommand(Frequency);
+            self.SendCommand(Frequency)
         
     def Reset(self, Delay):
         ch=[0x57,0x68,0x06,0x00,0x00,0x00]
         ch[4] = Delay & 0xff
         ch[3] = Delay >> 8
         ch[5] = self.SET_Check_Digit(ch)
-        self.SendCommand(ch);
+        self.SendCommand(ch)
 
         
     
