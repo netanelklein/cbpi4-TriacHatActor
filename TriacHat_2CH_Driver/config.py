@@ -10,17 +10,17 @@ import logging
 logger = logging.getLogger(__name__)
 
 class config(object):
-    def __init__(ser, Baudrate = 115200, dev = "/dev/ttyAMA0", data_mode = 1, address=0x47):
+    def __init__(ser, Baudrate = 115200, dev = "/dev/ttyS0", data_mode = 1, address=0x47):
         
         ser.data_mode = data_mode
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
         if(data_mode == 1):
             logger.info("Triac Hat interface is set to UART")
-            logger.info("Triac Hat device is at port %s"(dev))
-            logger.info("Triac Hat baudrate is %s"(Baudrate))
+            logger.info("Triac Hat device is at port %s" % (dev))
+            logger.info("Triac Hat baudrate is %s" % (Baudrate))
             ser.dev = dev
-            ser.serial = serial.Serial(dev ,Baudrate)
+            ser.serial = serial.Serial(dev, Baudrate)
         elif(data_mode == 0):
             logger.info("Triac Hat interface is set to I2C")
             ser.i2c = smbus.SMBus(1)

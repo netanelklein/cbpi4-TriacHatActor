@@ -10,8 +10,9 @@ logger = logging.getLogger(__name__)
 
 @parameters([Property.Select(label="Channel", options=[1,2], description="Select which channel you want to assign to this actor"),
              Property.Select(label="Interface", options=["UART", "I2C"], description="Select which interface your Triac Hat is using. (Deafult is UART)"),
-             Property.Select(label="Device Port", options=[port.device for port in lp.comports(True)]),
-             Property.Select(label="Frequency", options=[50, 60], description="Frequency in Hz (Deafult is 50Hz)")])
+             Property.Select(label="Device Port", options=[str(port.device) for port in lp.comports(True)]),
+             Property.Select(label="Frequency", options=[50, 60], description="Frequency in Hz (Deafult is 50Hz)"),
+             Property.Select(label="Voltage regulation?", options=["Yes", "No"], description="Switch mode / Voltage regulation mode (Deafult is voltage refulation)")])
 class TriacHat(CBPiActor):
 
     @action("Set Power", parameters=[Property.Number(label="Power", configurable=True, description="Power Setting [0-100]")])
@@ -31,8 +32,10 @@ class TriacHat(CBPiActor):
         self.interface = 0 if self.props.get("Interface") == "I2C" else 1
         self.dev = self.props.get("Device Port")
         self.freq = self.props.get("Frequncy", 50)
+        self.mode = 0 if self.props.get("Voltage regulation?") == "No" else 1
         self.switch = SCR.SCR(dev=self.dev, data_mode=self.interface)
         self.switch.GridFrequency(self.freq)
+        self.switch.SetMode(self.mode)
         self.state = False
 
     async def on(self, power = None):
@@ -45,7 +48,7 @@ class TriacHat(CBPiActor):
         self.state = True
 
     async def off(self):
-        self.set_power(0)
+        await self.set_power(0)
         logger.info("Triac Hat actor %s OFF - Channel %s " % (self.id, self.ch))
         self.state = False
         
