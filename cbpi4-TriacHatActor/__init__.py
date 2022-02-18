@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 @parameters([Property.Select(label="Channel", options=[1,2], description="Select which channel you want to assign to this actor"),
              Property.Select(label="Interface", options=["UART", "I2C"], description="Select which interface your Triac Hat is using. (Deafult is UART)"),
-             Property.Select(label="Device Port", options=[str(port.device) for port in lp.comports(True)]),
+             Property.Select(label="Device Port", options=[str(port.device) for port in lp.comports(True)], description="Choose the port in which your Triac Hat is connected. If you'll choose the wrong one cbpi may not be able to start."),
              Property.Select(label="Frequency", options=[50, 60], description="Frequency in Hz (Deafult is 50Hz)"),
              Property.Select(label="Voltage regulation?", options=["Yes", "No"], description="Switch mode / Voltage regulation mode (Deafult is voltage refulation)")])
 class TriacHat(CBPiActor):
@@ -59,7 +59,7 @@ class TriacHat(CBPiActor):
         elif power > 0:
             if self.state == False:
                 self.switch.ChannelEnable(self.ch)
-            self.switch.VoltageRegulation(self.ch, round(power*1.79))   # Still need to check how exactly the angle works. assuming 0 is off and 179 is 100%
+            self.switch.VoltageRegulation(self.ch, round(power*1.79))   # Assuming power is linear
         await self.cbpi.actor.actor_update(self.id, power)
     
     def get_state(self):

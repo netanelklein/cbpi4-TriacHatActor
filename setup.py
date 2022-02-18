@@ -7,7 +7,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(name='cbpi4-TriacHatActor',
-      version='0.0.1',
+      version='0.0.2',
       description='CraftBeerPi Plugin for controlling actor using Waveshare\'s 2CH Triac HAT for Raspberry Pi',
       author='Netanel Klein',
       author_email='netanel@netanelk.com',
