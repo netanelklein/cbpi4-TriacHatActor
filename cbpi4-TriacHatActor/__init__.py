@@ -5,14 +5,14 @@ import asyncio
 from cbpi.api import *
 import serial.tools.list_ports as lp
 from TriacHat_2CH_Driver import SCR
+import math
 
 logger = logging.getLogger(__name__)
 
 @parameters([Property.Select(label="Channel", options=[1,2], description="Select which channel you want to assign to this actor"),
              Property.Select(label="Interface", options=["UART", "I2C"], description="Select which interface your Triac Hat is using. (Deafult is UART)"),
              Property.Select(label="Device Port", options=[str(port.device) for port in lp.comports(True)], description="Choose the port in which your Triac Hat is connected. If you'll choose the wrong one cbpi may not be able to start."),
-             Property.Select(label="Frequency", options=[50, 60], description="Frequency in Hz (Deafult is 50Hz)"),
-             Property.Select(label="Voltage regulation?", options=["Yes", "No"], description="Switch mode / Voltage regulation mode (Deafult is voltage refulation)")])
+             Property.Select(label="Frequency", options=[50, 60], description="Frequency in Hz (Deafult is 50Hz)")])
 class TriacHat(CBPiActor):
 
     @action("Set Power", parameters=[Property.Number(label="Power", configurable=True, description="Power Setting [0-100]")])
@@ -32,10 +32,9 @@ class TriacHat(CBPiActor):
         self.interface = 0 if self.props.get("Interface") == "I2C" else 1
         self.dev = self.props.get("Device Port")
         self.freq = self.props.get("Frequncy", 50)
-        self.mode = 0 if self.props.get("Voltage regulation?") == "No" else 1
         self.switch = SCR.SCR(dev=self.dev, data_mode=self.interface)
         self.switch.GridFrequency(self.freq)
-        self.switch.SetMode(self.mode)
+        self.switch.SetMode(1)
         self.state = False
 
     async def on(self, power = None):
@@ -59,7 +58,8 @@ class TriacHat(CBPiActor):
         elif power > 0:
             if self.state == False:
                 self.switch.ChannelEnable(self.ch)
-            self.switch.VoltageRegulation(self.ch, round(power*1.79))   # Assuming power is linear
+             # To get the angle from a given power, I use the rounded value in degrees of arccos(1-(Power in Percents/50)).
+            self.switch.VoltageRegulation(self.ch, round(math.degrees(math.acos(1-(power/50))))-1)
         await self.cbpi.actor.actor_update(self.id, power)
     
     def get_state(self):
