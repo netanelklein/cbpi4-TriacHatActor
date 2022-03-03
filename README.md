@@ -24,7 +24,7 @@ In order to do so you have to have Git installed on your system. You can do this
 sudo apt install git
 ```
 
-You will have to enable the Interface that you want to use in reaspi-config. in order to get there, use this command:
+You will have to enable the Interface that you want to use in raspi-config. in order to get there, use this command:
 ```bash
 sudo raspi-config
 ```
