@@ -6,7 +6,11 @@ This device is used for voltage regulation using a triac and have two channels f
 
 ## Installation
 
-As of right now this plugin is not availble via pypi. You can download it using this command in the command line:
+You can install this package via Pypi.org using this command:
+
+`sudo pip3 install cbpi4-TriacHatActor`
+
+Alternatively you can download it using this command:
 
 `sudo pip3 install git+https://github.com/netanelklein/cbpi4-TriacHatActor.git`
 
