@@ -8,21 +8,31 @@ This device is used for voltage regulation using a triac and have two channels f
 
 You can install this package via Pypi.org using this command:
 
-`sudo pip3 install cbpi4-TriacHatActor`
+```bash
+sudo pip3 install cbpi4-TriacHatActor
+```
 
 Alternatively you can download it using this command:
 
-`sudo pip3 install git+https://github.com/netanelklein/cbpi4-TriacHatActor.git`
+```bash
+sudo pip3 install git+https://github.com/netanelklein/cbpi4-TriacHatActor.git
+```
 
 In order to do so you have to have Git installed on your system. You can do this simply using the command:
 
-`sudo apt install git`
+```bash
+sudo apt install git
+```
 
-You will have to enable the Interface that you want to use in reaspi-config. in order to get there, simply type `sudo raspi-config` in the command line. Then go to **Interface Options** and then to **Serial Port**. There you should choose **no** for *let login shell be accessible over serial* and **yes** for *Would you like the serial port hardware to be enabled?*.
+You will have to enable the Interface that you want to use in reaspi-config. in order to get there, use this command:
+```bash
+sudo raspi-config
+```
+ Then go to **Interface Options** and then to **Serial Port**. There you should choose **no** for *let login shell be accessible over serial* and **yes** for *Would you like the serial port hardware to be enabled?*
 
 If you want to use the I2C interface, you should enable it from the **Interface Options** under **I2C**. I personally haven't tried to use the Triac Hat with I2C, so there may be bugs there.
 
-## parameters
+## Parameters
 
 * **Channel** - Choose which of the Triac Hat channels you want to assign to this actor.
 * **Interface** - Choose between UART and I2C. Default is UART. Be aware that you must choose the same interface for all the actors that are connected to the Triac Hat.
