@@ -20,7 +20,8 @@ class config(object):
             logger.info("Triac Hat device is at port %s" % (dev))
             logger.info("Triac Hat baudrate is %s" % (Baudrate))
             ser.dev = dev
-            ser.serial = serial.Serial(dev, Baudrate)
+            # write_timeout MUST be 0, otherwise the proccess will hang if trying to reach the wrong port
+            ser.serial = serial.Serial(dev, Baudrate, write_timeout=0)
         elif(data_mode == 0):
             logger.info("Triac Hat interface is set to I2C")
             ser.i2c = smbus.SMBus(1)
