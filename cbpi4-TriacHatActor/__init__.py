@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 @parameters([Property.Select(label="Channel", options=[1,2], description="Select which channel you want to assign to this actor"),
              Property.Select(label="Interface", options=["UART", "I2C"], description="Select which interface your Triac Hat is using. (Deafult is UART)"),
              Property.Select(label="Device Port", options=[str(port.device) for port in lp.comports(True)], description="Choose the port in which your Triac Hat is connected."),
-             Property.Select(label="Frequency", options=[50, 60], description="Frequency in Hz (Deafult is 50Hz)")])
+             Property.Select(label="Frequency", options=[50, 60], description="Line Frequency in Hz (Deafult is 50Hz)")])
 class TriacHat(CBPiActor):
 
     @action("Set Power", parameters=[Property.Number(label="Power", configurable=True, description="Power Setting [0-100]")])

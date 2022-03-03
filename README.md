@@ -23,7 +23,7 @@ In order to do so you have to have Git installed on your system. You can do this
 ```bash
 sudo apt install git
 ```
-### Adding plugin to CraftBeerPi
+### Activating plugin in CraftBeerPi
 
 In order for the plugin to show up in your CraftBeerPi system, you have to activate the plugin using this command:
 ```bash
@@ -45,4 +45,4 @@ If you want to use the I2C interface, you should enable it from the **Interface 
 * **Channel** - Choose which of the Triac Hat channels you want to assign to this actor.
 * **Interface** - Choose between UART and I2C. Default is UART. Be aware that you must choose the same interface for all the actors that are connected to the Triac Hat.
 * **Device Port** - Choose the serial port in which the triac is connected. Usually it's /dev/ttyS0 or /dev/ttySerial0, so choose this if you're not sure.
-* **Frequency** - Your electricity frequency. 50 Hz is defauld as it is the most popular frequency around the world. In the US the frequency is 60 Hz.
+* **Frequency** - Your line frequency. 50 Hz is default as it is the most popular frequency around the world. In the US the frequency is 60 Hz.
