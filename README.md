@@ -18,11 +18,19 @@ Alternatively you can download it using this command:
 sudo pip3 install git+https://github.com/netanelklein/cbpi4-TriacHatActor.git
 ```
 
-In order to do so you have to have Git installed on your system. You can do this simply using the command:
+In order to do so you have to have Git installed on your system. You can do this simply by using the command:
 
 ```bash
 sudo apt install git
 ```
+### Adding plugin to CraftBeerPi
+
+In order for the plugin to show up in your CraftBeerPi system, you have to activate the plugin using this command:
+```bash
+cbpi add cbpi4-TriacHatActor
+```
+
+### System configuration
 
 You will have to enable the Interface that you want to use in raspi-config. in order to get there, use this command:
 ```bash
