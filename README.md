@@ -18,7 +18,7 @@ Alternatively you can download it using this command:
 sudo pip3 install git+https://github.com/netanelklein/cbpi4-TriacHatActor.git
 ```
 
-In order to do so you have to have Git installed on your system. You can do this simply by using the command:
+In order to do so you have to have Git installed on your system. You can do this simply by using this command:
 
 ```bash
 sudo apt install git
