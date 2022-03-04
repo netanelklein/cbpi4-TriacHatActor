@@ -6,7 +6,6 @@ from cbpi.api import *
 import serial.tools.list_ports as lp
 from TriacHat_2CH_Driver import SCR
 import math
-import time
 
 logger = logging.getLogger(__name__)
 
@@ -34,9 +33,7 @@ class TriacHat(CBPiActor):
         self.dev = self.props.get("Device Port")
         self.freq = self.props.get("Frequncy", 50)
         self.switch = SCR.SCR(dev=self.dev, data_mode=self.interface)
-        time.sleep(0.1)
         self.switch.GridFrequency(self.freq)
-        time.sleep(0.1)
         self.switch.SetMode(1)
         self.state = False
 

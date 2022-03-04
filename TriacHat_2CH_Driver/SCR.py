@@ -30,7 +30,7 @@ class SCR:
             self.com.UART_SendnByte(Data,6)
         if(self.data_mode == 0):    # 0: i2c
             self.com.I2C_SendWord(Data[2],(Data[3]) | (Data[4]<<8))
-        time.sleep(0.01)
+        time.sleep(0.1)
     
     def SET_Check_Digit(self, Data):
         return  ((((Data[0]^Data[1])^Data[2])^Data[3])^Data[4])
