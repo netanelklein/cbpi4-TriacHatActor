@@ -19,7 +19,7 @@ setup(name='cbpi4-TriacHatActor',
       '': ['*.txt', '*.rst', '*.yaml'],
       'cbpi4-TriacHatActor': ['*','*.txt', '*.rst', '*.yaml']},
       packages=['cbpi4-TriacHatActor', 'TriacHat_2CH_Driver'],
-      install_requires=['cbpi>=4.0.0.56', 'RPi.GPIO', 'pyserial', 'smbus'],
+      install_requires=['RPi.GPIO', 'pyserial', 'smbus'],
       long_description=long_description,
       long_description_content_type='text/markdown'
      )
